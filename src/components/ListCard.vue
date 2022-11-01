@@ -1,31 +1,75 @@
 <template>
-    <div class="col-md-3 col-sm-1 p-3">
-    
-    
-    <div class="card">
+    <div class="col-lg-3 col-md-4 col-sm-12 p-3">
+        <div class="card">
         <img src="../assets/images/pic2.jpg" class="card-img-top" alt="..." style="height:190px;width:100%;background-position:cover;background-size:cover">
         <div class="card-body">
             <h5 class="card-title">List Name</h5>
-            <p class="card-text">Descriptions about list Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Repudiandae enim aliquid voluptatum nobis, doloribus quis, asperiores sit, libero aliquam doloremque error
-                aspernatur rerum tenetur iusto consequuntur quo aperiam fugit reiciendis.</p>
-            <div class="row d-flex justify-content-around">
-                <div class="col-3">
-                    <a href="#" class="btn btn-danger px-3  py-1">Go</a>
-                </div>
-                <div class="col-3">
-                    <a href="#" class="btn btn-danger px-3  py-1">Go</a>
-                </div>
-                <div class="col-3">
-                    <a href="#" class="btn btn-danger px-3  py-1">Go</a>
-                </div>
-                <div class="col-3">
-                    <a href="#" class="btn btn-danger px-3  py-1">Go</a>
+            <p class="card-text">Descriptions about list Lorem ipsum dolor Descriptions about list Lorem ipsum dolor Descriptions about &nbsp;<a href="/listId/" class="text-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Show More
+            </a></p>
+                <div class="row d-flex justify-content-around">
+                    
+                    <!-- <div class="col-3">
+                        <a href="#" class="btn btn-danger px-3  py-1">Go</a>
+                    </div> -->
+                    <div class="col-3">
+                        <button type="button" class="btn btn-danger  px-3  py-1" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                            <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Add" icon="plus" />
+                        </button>
+                    </div>
+                    <div class="col-3">
+                        <button type="button" class="btn btn-danger  px-3  py-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" icon="pen" />
+                        </button>
+                    </div>
+                    <div class="col-3">
+                        <button type="button" class="btn btn-danger  px-3  py-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                           <span data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"> <font-awesome-icon  data-bs-toggle="tooltip" data-bs-placement="top" title="Delete" icon="trash" /></span>
+                        </button>
+                    </div>
+                    <div class="col-3">
+                        <a href="/list" class="btn btn-danger px-3 py-1" >
+                            <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Open" icon="right-to-bracket" />
+                        </a>
+                    </div>
                 </div>
             </div>
-    
         </div>
     </div>
+    <!-- Button trigger modal -->
+    
+    
+    <!-- Modal -->
+    <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
