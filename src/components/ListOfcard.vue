@@ -18,14 +18,14 @@
                    
                     <div class="col-4">
                         <button type="button" class="btn btn-danger  px-3  py-1" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">
+                            data-bs-target="#editCardModal">
                             <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"
                                 icon="pen" />&nbsp;&nbsp;Edit
                         </button>
                     </div>
                     <div class="col-4">
                         <button type="button" class="btn btn-danger  px-3  py-1" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">
+                            data-bs-target="#deleteCard">
                             <span data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
                                 <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"
                                     icon="trash" />&nbsp;&nbsp;Delete
@@ -41,37 +41,79 @@
     </div>
     <!-- Button trigger modal -->
 
-
-    <!-- Modal -->
-    <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- -------------------------------------------------------------------------------------------------------------- -->
+    <!-- Modal for Editing the card Details -->
+    <div class="modal fade " id="editCardModal" tabindex="-1" aria-labelledby="editCardModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
+                <!-- Header Title -->
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="editCardModal">Edit Card Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form>
+                        <!-- Editing card Name -->
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp">
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                            <label for="cardName" class="form-label">Card Name</label>
+                            <input type="text" class="form-control" id="cardName">
                         </div>
+                        <!-- Editing card Description -->
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1">
+                            <label for="cardDesc" class="form-label">Card Description</label>
+                            <textarea class="form-control" id="cardDesc" rows="3"></textarea>
                         </div>
+                        <!-- Editing List Name -->
+                        <div class="mb-3">
+                            <label for="listType" class="form-label">List Name</label>
+                            <select class="form-select" id="listType" aria-label="Default select example">
+                                <option selected>Select Any List</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                        <!-- Editing card Deadline Date -->
+                        <div class="mb-3">
+                            <label for="deadLine" class="form-label">DeadLine Date</label>
+                            <input type="date" class="form-control" id="deadLine">
+                        </div>
+                        <!-- Editing card completion flag-->
                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            <input type="checkbox" class="form-check-input" id="completeCheck">
+                            <label class="form-check-label" for="completeCheck">Completed</label>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-danger">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- -------------------------------------------------------------------------------------------------------------- -->
+    <!-- Modal for Confirm Modal Deletion -->
+    <div class="modal fade" id="deleteCard" tabindex="-1" aria-labelledby="deleteCard" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Header Title -->
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteCard">Delete Card</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                   <div class="row">
+                    <div class="text-center"><p> Are You Sure You Want To delete?</p>
+                        <div><font-awesome-icon data-bs-toggle="tooltip" class="text-warning" style="font-size:60px" data-bs-placement="top" title="Delete" icon="circle-check" /></div>
+                    </div>
+
+                   </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger">Delete Card</button>
                 </div>
             </div>
         </div>

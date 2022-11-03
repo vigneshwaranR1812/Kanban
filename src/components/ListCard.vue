@@ -1,72 +1,145 @@
 <template>
-    <div class="col-lg-3 col-md-4 col-sm-12 p-3">
+    <div class="col-lg-6 col-md-6 col-sm-12 p-3">
         <div class="card">
-        <img src="../assets/images/pic2.jpg" class="card-img-top" alt="..." style="height:190px;width:100%;background-position:cover;background-size:cover">
-        <div class="card-body">
-            <h5 class="card-title">List Name</h5>
-            <p class="card-text">Descriptions about list Lorem ipsum dolor Descriptions about list Lorem ipsum dolor Descriptions about &nbsp;<a href="/listId/" class="text-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Show More
-            </a></p>
-                <div class="row d-flex justify-content-around">
-                    
-                    <!-- <div class="col-3">
-                        <a href="#" class="btn btn-danger px-3  py-1">Go</a>
-                    </div> -->
-                    <div class="col-3">
-                        <button type="button" class="btn btn-danger  px-3  py-1" data-bs-toggle="modal" data-bs-target="#exampleModal" >
-                            <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Add" icon="plus" />
-                        </button>
+            <div class="row">
+                <div class="col-4">
+                    <img src="../assets/images/pic2.jpg" class="card-img-top" alt="..."
+                        style="height:200px;width:100%;background-position:cover;background-size:cover;padding:5px">
+                </div>
+                <div class="col-8">
+                    <div class="card-body">
+                        <h5 class="card-title">List Name</h5>
+                        <p class="card-text">Descriptions about list Lorem ipsum dolor Descriptions about list Lorem ipsum dolor
+                            Descriptions about &nbsp;<a href="/listId/" class="text-danger" data-bs-toggle="modal"
+                                data-bs-target="#displayDesc">Show More
+                            </a>
+                        </p>
+                        <div class="d-flex flex-row justify-content-around">
+                            
+                            <div >
+                                <button type="button" class="btn btn-danger  px-3  py-1" data-bs-toggle="modal"
+                                    data-bs-target="#editList">
+                                    <!-- <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" icon="pen" /> Edit -->
+                                    Edit
+                                </button>
+                            </div>
+                            <div >
+                                <button type="button" class="btn btn-danger  px-3  py-1" data-bs-toggle="modal"
+                                    data-bs-target="#deleteList">
+                                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                                        <!-- <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Delete" icon="trash" /> Delete -->
+                                        Delete
+                                    </span>
+                                </button>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-danger  px-3  py-1"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <!-- <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Add" icon="chart-simple" />  -->
+                                    Summary
+                                </button>
+                            </div>
+                            <div>
+                                <a href="/list" class="btn btn-danger px-3 py-1">
+                                    <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Open"
+                                        icon="right-to-bracket" />
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-3">
-                        <button type="button" class="btn btn-danger  px-3  py-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" icon="pen" />
-                        </button>
                     </div>
-                    <div class="col-3">
-                        <button type="button" class="btn btn-danger  px-3  py-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                           <span data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"> <font-awesome-icon  data-bs-toggle="tooltip" data-bs-placement="top" title="Delete" icon="trash" /></span>
-                        </button>
+                </div>
+            </div>
+    </div>
+    <!-- ---------------------------------------------------------------------------------------------------------------- -->
+    <!-- Modal for the Editing List -->
+    <div class="modal fade " id="editList" tabindex="-1" aria-labelledby="editList" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <!-- Header Title -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editList">Edit Existing List</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <form>
+                                <!-- Editing List Name -->
+                                <div class="mb-3">
+                                    <label for="cardName" class="form-label">List Name</label>
+                                    <input type="text" class="form-control" id="cardName">
+                                </div>
+                                <!-- Editing List Description -->
+                                <div class="mb-3">
+                                    <label for="cardDesc" class="form-label">List Description</label>
+                                    <textarea class="form-control" id="cardDesc" rows="3"></textarea>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="col-3">
-                        <a href="/list" class="btn btn-danger px-3 py-1" >
-                            <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Open" icon="right-to-bracket" />
-                        </a>
-                    </div>
+    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger">Edit List</button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Button trigger modal -->
-    
-    
-    <!-- Modal -->
-    <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+    <!-- -------------------------------------------------------------------------------------------------------------- -->
+    <!-- Modal for Confirm Modal Deletion -->
+    <div class="modal fade" id="deleteList" tabindex="-1" aria-labelledby="deleteList" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
+                <!-- Header Title -->
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h1 class="modal-title fs-5" id="deleteList">Delete List</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <!-- Modal Body -->
                 <div class="modal-body">
-                  <form>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    <div class="row">
+                        <div class="text-center">
+                            <p> Are You Sure You Want To delete?</p>
+                            <div>
+                                <font-awesome-icon data-bs-toggle="tooltip" class="text-warning" style="font-size:60px"
+                                    data-bs-placement="top" title="Delete" icon="circle-check" />
+                            </div>
+                        </div>
+    
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="exampleInputPassword1">
-                    </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger">Delete List</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- -------------------------------------------------------------------------------------------------------------- -->
+    <!-- Modal for Displaying List Description -->
+    <div class="modal fade" id="displayDesc" tabindex="-1" aria-labelledby="displayDesc" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Header Title -->
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="displayDesc">List Details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="text-center">
+                            <h1>List Name</h1>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam, minima? Nam asperiores ullam dolores doloremque dolorum accusamus, delectus officia consectetur, nemo, dolorem magnam molestiae officiis soluta iste sunt! Tempora, ipsum.</p>
+                        </div>
+    
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    
                 </div>
             </div>
         </div>
