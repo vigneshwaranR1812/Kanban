@@ -1,6 +1,19 @@
 <template>
     <div class="container-fluid img">
-        <div class="row">
+
+        <div class="row ">
+            <div v-if="error==true" class="row mt-4 ">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <div  class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Check Your Data</strong> You should check on those fields below.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+            </div>
+
+           
             <div class="col-md-4 ps-4 pe-4" style=" height:100vh">
                 <div class="row d-flex align-items-center ms-2 me-2 mt-5" style="margin: auto auto">
                     
@@ -22,10 +35,6 @@
                             
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="labels" style="text-align:left">Email Address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="email" required>
-                            </div>
-                            <div class="mb-3">
                                 <label for="exampleInputPass" class="labels" style="text-align:left">Password</label>
                                 <input type="password" class="form-control" id="exampleInputPass" aria-describedby="emailHelp" v-model="password" required>
                             </div>
@@ -33,8 +42,10 @@
                                 <label for="exampleInputPhone" class="labels" style="text-align:left">Phone Number</label>
                                 <input type="text" class="form-control" id="exampleInputPhone" aria-describedby="emailHelp" v-model="phoneNumber" required>
                             </div>
-                           
-                            <button type="submit" class="btn btn-danger">Sign Up</button>
+                        <div class="d-flex align-items-center mb-3">
+                            <button type="submit" class="btn btn-danger me-3">Sign Up</button>
+                            <a href="/login" class="text-danger " style="text-decoration:none">Have an Account</a>
+                        </div>
                         </form>
                         </div>
                     </div>
@@ -56,13 +67,42 @@ export default {
             lastName:"",
             username:"",
             phoneNumber:"",
-            email:"",
             password:"",
+            error:false
         }
     },
     methods:{
         submitData(){
-            console.log(this.firstName,this,this.lastName,this.password,this.username,this.email,this.phoneNumber)
+            var phoneValidation = /^[7-9][0-9]{9}$/;
+            var name =/^[a-zA-Z]+$/;
+            var username =/^[a-zA-Z][a-zA-Z0-9]*$/;
+            var password =/^[a-zA-Z0-9]+$/;
+            var flag=true;
+            if (name.test(this.firstName)===false || name.test(this.lastName)===false ){
+                console.log("Name");
+                flag=false;
+            }
+            if (phoneValidation.test(this.phoneNumber) == false) {
+                console.log("phone");
+                flag = false;
+            }
+            if (username.test(this.username) == false) {
+                console.log("uname");
+                flag = false;
+            }
+            if (password.test(this.password) == false) {
+                console.log("flag");
+                flag = false;
+            }
+            if(flag==true){
+                //post
+                console.log("Post Data");
+            }
+            else{
+                this.error=true;
+                console.log("Error alert")
+            }
+
         }
     }
 }
@@ -72,6 +112,8 @@ export default {
         background:  linear-gradient(45deg,rgba(0,0,0,0.7),rgba(0, 0, 0, 0.4)),url("../assets/images/SignUp.jpg");
         width:100%;
         height: 100vh;
+        overflow: hidden;
+        max-height: 100vh;
         background-position: center;
         background-size: cover;
     }

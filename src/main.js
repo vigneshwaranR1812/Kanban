@@ -14,9 +14,8 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 /* add icons to the library */
 library.add(fas);
 
-/* add font awesome icon component */
-
-// import VueTypedJs from "vue-typed-js";
+//Importing store
+import store from "./Store";
 import { createRouter, createWebHistory } from "vue-router";
 const router = createRouter({
   history: createWebHistory(),
@@ -27,6 +26,7 @@ const router = createRouter({
     { path: "/login", component: LoginIn },
     { path: "/dashboard", component: MainBoard },
     { path: "/list/", component: CardCard },
+    // { path: "", component: HomeScreen },
   ],
 });
 
@@ -34,4 +34,5 @@ const app = createApp(App);
 // app.use(VueTypedJs);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(router);
+app.use(store);
 app.mount("#app");
