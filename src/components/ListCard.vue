@@ -62,27 +62,24 @@
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <div class="card">
-                        <div class="card-body">
-                            <form>
+                    
+                            <form @submit.prevent="submitEditList" id="changeList" autocomplete="off">
                                 <!-- Editing List Name -->
                                 <div class="mb-3">
                                     <label for="cardName" class="form-label">List Name</label>
-                                    <input type="text" class="form-control" id="cardName">
+                                    <input type="text" class="form-control" id="cardName" v-model="listName">
                                 </div>
                                 <!-- Editing List Description -->
                                 <div class="mb-3">
                                     <label for="cardDesc" class="form-label">List Description</label>
-                                    <textarea class="form-control" id="cardDesc" rows="3"></textarea>
+                                    <textarea class="form-control" id="cardDesc" rows="3" v-model="listDescription"></textarea>
                                 </div>
                             </form>
-                        </div>
-                    </div>
     
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger">Edit List</button>
+                    <button type="submit" class="btn btn-danger" form="changeList">Save changes</button>
                 </div>
             </div>
         </div>
@@ -151,14 +148,33 @@
             props: ['image'],
             data(){
                 return {
-                  
+                    listDescription: "",
+                    listName: "",
                 }
             },
             
             methods:{
-                updateImage:()=>{
-                    console.log(this.$props)
-                    return "../assests/images/";
+                submitEditList() {
+
+                    console.log("Hello")
+                    var listName = /^[a-zA-Z]+$/
+                    var listDescription = /^[a-zA-Z][a-zA-Z0-9]*$/
+                    var flag = true;
+                    if (listName.test(this.listName) === false) {
+                        flag = false;
+                    }
+                    if (listDescription.test(this.listDescription) === false) {
+                        flag = false;
+                    }
+                    if (flag == false) {
+                        console.log("Error");
+                    }
+                    else {
+                        //update card details
+                        console.log("post data");
+                        console.log(this.listDescription, this.listName)
+                    }
+
                 }
             },
 

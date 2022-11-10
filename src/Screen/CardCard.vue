@@ -1,14 +1,15 @@
+
 <template>
     <PersonalNavbar></PersonalNavbar>
     <div class="container">
 
-       
+
         <div class="row mt-4 mb-3">
             <div class="col-md-6 col-sm-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/dashboard">DashBoard</a></li>
-                
+
                         <li class="breadcrumb-item active" aria-current="page">Cards</li>
                     </ol>
                 </nav>
@@ -36,53 +37,52 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="card">
-                        <div class="card-body">
-                            <form>
-                                <!-- Adding card Name -->
-                                <div class="mb-3">
-                                    <label for="cardName" class="form-label">Card Name</label>
-                                    <input type="text" class="form-control" id="cardName">
-                                </div>
-                                <!-- Adding card Description -->
-                                <div class="mb-3">
-                                    <label for="cardDesc" class="form-label">Card Description</label>
-                                    <textarea class="form-control" id="cardDesc" rows="3"></textarea>
-                                </div>
-                                <!-- Adding List Name -->
-                                <div class="mb-3">
-                                    <label for="listType" class="form-label">List Name</label>
-                                    <select class="form-select" id="listType" aria-label="Default select example">
-                                        <option selected>Select Any List</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
-                                <!-- Adding card Deadline Date -->
-                                <div class="mb-3">
-                                    <label for="deadLine" class="form-label">DeadLine Date</label>
-                                    <input type="date" class="form-control" id="deadLine" >
-                                </div>
-                                
-                                <!-- Adding card completion flag-->
-                                <!-- <div class="mb-3 form-check">
+
+                    <form id="addCardList" @submit.prevent="submitNewCard">
+                        <!-- Adding card Name -->
+                        <div class="mb-3">
+                            <label for="cardName" class="form-label">Card Name</label>
+                            <input type="text" class="form-control" id="cardName" v-model="cardName">
+                        </div>
+                        <!-- Adding card Description -->
+                        <div class="mb-3">
+                            <label for="cardDesc" class="form-label">Card Description</label>
+                            <textarea class="form-control" id="cardDesc" rows="3" v-model="cardDescription"></textarea>
+                        </div>
+                        <!-- Adding List Name -->
+                        <div class="mb-3">
+                            <label for="listType" class="form-label">List Name</label>
+                            <select class="form-select" id="listType" aria-label="Default select example"
+                                v-model="selectData">
+                                <option selected>Select Any List</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                        <!-- Adding card Deadline Date -->
+                        <div class="mb-3">
+                            <label for="deadLine" class="form-label">DeadLine Date</label>
+                            <input type="date" class="form-control" id="deadLine" v-bind:min="datePickerId" v-model="cardDeadline">
+                        </div>
+
+                        <!-- Adding card completion flag-->
+                        <!-- <div class="mb-3 form-check">
                                     <input type="checkbox" class="form-check-input" id="completeCheck">
                                     <label class="form-check-label" for="completeCheck">Completed</label>
                                 </div> -->
-                            </form>
-                        </div>
-                    </div>
+                    </form>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger">Add Card</button>
+                    <button type="submit" class="btn btn-danger" form="addCardList">Add Card</button>
                 </div>
             </div>
         </div>
     </div>
 
-    
+
 </template>
 
 <script>
@@ -91,7 +91,37 @@ import CardCard from '../components/ListOfcard.vue'
 export default {
     data() {
         return {
-            images: ['pic1.jpg', 'pic2.jpg', 'pic2.jpg']
+              images: ['pic1.jpg', 'pic2.jpg', 'pic2.jpg'],
+            datePickerId: new Date().toISOString().split("T")[0],
+            cardDescription: "",
+            cardName: "",
+            cardStatus: false,
+            selectData: -1,
+            cardDeadline: ""
+        }
+    },
+
+    methods: {
+        
+        submitNewCard() {
+            var cardName = /^[a-zA-Z]+$/
+            var cardDescription = /^[a-zA-Z][a-zA-Z0-9]*$/
+            var flag = true;
+            if (cardName.test(this.cardName) === false) {
+                flag = false;
+            }
+            if (cardDescription.test(this.cardDescription) === false) {
+                flag = false;
+            }
+            if (flag == false) {
+                console.log("Error");
+            }
+            else {
+                //update card details
+                console.log("post data");
+                console.log(this.cardDescription, this.cardName, this.cardStatus, this.selectData, this.cardDeadline)
+            }
+
         }
     },
     components: {
@@ -103,3 +133,4 @@ export default {
 <style>
 
 </style>
+

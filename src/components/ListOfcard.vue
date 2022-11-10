@@ -52,21 +52,21 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form @submit.prevent="submitEditCard" id="editCard">
                         <!-- Editing card Name -->
                         <div class="mb-3">
                             <label for="cardName" class="form-label">Card Name</label>
-                            <input type="text" class="form-control" id="cardName">
+                            <input type="text" class="form-control" id="cardName" v-model="cardName">
                         </div>
                         <!-- Editing card Description -->
                         <div class="mb-3">
                             <label for="cardDesc" class="form-label">Card Description</label>
-                            <textarea class="form-control" id="cardDesc" rows="3"></textarea>
+                            <textarea class="form-control" id="cardDesc" rows="3" v-model="cardDescription"></textarea>
                         </div>
                         <!-- Editing List Name -->
                         <div class="mb-3">
                             <label for="listType" class="form-label">List Name</label>
-                            <select class="form-select" id="listType" aria-label="Default select example">
+                            <select class="form-select" id="listType" aria-label="Default select example" v-model="selectData">
                                 <option selected>Select Any List</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
@@ -76,18 +76,18 @@
                         <!-- Editing card Deadline Date -->
                         <div class="mb-3">
                             <label for="deadLine" class="form-label">DeadLine Date</label>
-                            <input type="date" class="form-control" id="deadLine">
+                            <input type="date" class="form-control" id="deadLine" v-bind:min="datePickerId" v-model="cardDeadline">
                         </div>
                         <!-- Editing card completion flag-->
                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="completeCheck">
+                            <input type="checkbox" class="form-check-input" id="completeCheck" v-model="cardStatus">
                             <label class="form-check-label" for="completeCheck">Completed</label>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger">Save changes</button>
+                    <button type="submit" class="btn btn-danger" form="editCard">Save changes</button>
                 </div>
             </div>
         </div>
@@ -125,7 +125,12 @@ export default {
     props: ['image'],
     data() {
         return {
-
+            datePickerId: new Date().toISOString().split("T")[0],
+            cardDescription:"",
+            cardName:"",
+            cardStatus:false,
+            selectData:-1,
+            cardDeadline:""
         }
     },
 
@@ -133,6 +138,26 @@ export default {
         updateImage: () => {
             console.log(this.$props)
             return "../assests/images/";
+        },
+        submitEditCard(){
+            var cardName = /^[a-zA-Z]+$/
+            var cardDescription = /^[a-zA-Z][a-zA-Z0-9]*$/
+            var flag=true;
+            if(cardName.test(this.cardName)===false){
+                flag=false;
+            }
+            if (cardDescription.test(this.cardDescription) === false) {
+                flag = false;
+            }
+            if(flag==false){
+                console.log("Error");
+            }
+            else{
+                //update card details
+                console.log("post data");
+                console.log(this.cardDescription,this.cardName,this.cardStatus,this.selectData,this.cardDeadline)
+            }
+    
         }
     },
 

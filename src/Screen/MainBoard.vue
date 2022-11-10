@@ -33,23 +33,22 @@
             </div>
             <!-- Modal Body -->
             <div class="modal-body">
-                <div class="card">
-                    <div class="card-body">
-                        <form>
+                
+                        <form id="addNewCard" @submit.prevent="submitNewCard">
                             <!-- Adding card Name -->
                             <div class="mb-3">
                                 <label for="cardName" class="form-label">Card Name</label>
-                                <input type="text" class="form-control" id="cardName">
+                                <input type="text" class="form-control" id="cardName" v-model="card.cardName">
                             </div>
                             <!-- Adding card Description -->
                             <div class="mb-3">
                                 <label for="cardDesc" class="form-label">Card Description</label>
-                                <textarea class="form-control" id="cardDesc" rows="3"></textarea>
+                                <textarea class="form-control" id="cardDesc" rows="3" v-model="card.cardDescription"></textarea>
                             </div>
                             <!-- Adding List Name -->
                             <div class="mb-3">
                                 <label for="listType" class="form-label">List Name</label>
-                                <select class="form-select" id="listType" aria-label="Default select example">
+                                <select class="form-select" id="listType" aria-label="Default select example" v-model="card.selectData">
                                     <option selected>Select Any List</option>
                                     <option value="1">One</option>
                                     <option value="2">Two</option>
@@ -59,15 +58,14 @@
                             <!-- Adding card Deadline Date -->
                             <div class="mb-3">
                                 <label for="deadLine" class="form-label">DeadLine Date</label>
-                                <input type="date" class="form-control" id="deadLine">
+                                <input type="date" class="form-control" id="deadLine" v-bind:min="datePickerId" v-model="card.cardDeadline">
                             </div>
                         </form>
-                    </div>
-                </div>
+                   
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger">Add Card</button>
+                <button type="submit" class="btn btn-danger" form="addNewCard">Add Card</button>
             </div>
         </div>
     </div>
@@ -84,27 +82,25 @@
                 </div>
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <div class="card">
-                         <div class="card-body">
-                            <form>
+                   
+                            <form id="addNewList" @submit.prevent="submitNewList" autocomplete="off">
                                 <!-- Adding List Name -->
                                 <div class="mb-3">
                                     <label for="cardName" class="form-label">List Name</label>
-                                    <input type="text" class="form-control" id="cardName">
+                                    <input type="text" class="form-control" id="cardName" v-model="list.listName">
                                 </div>
                                 <!-- Adding List Description -->
                                 <div class="mb-3">
                                     <label for="cardDesc" class="form-label">List Description</label>
-                                    <textarea class="form-control" id="cardDesc" rows="3"></textarea>
+                                    <textarea class="form-control" id="cardDesc" rows="3" v-model="list.listDescription"></textarea>
                                 </div>
                             </form>
-                        </div>
-                    </div>
+                     
     
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger">Add List</button>
+                    <button type="submit" class="btn btn-danger" form="addNewList">Add List</button>
                 </div>
             </div>
         </div>
@@ -117,8 +113,66 @@ import ListCard from '../components/ListCard.vue'
 export default{
     data(){
         return {
-            images: ['pic1.jpg', 'pic2.jpg', 'pic2.jpg']
-        }
+            images: ['pic1.jpg', 'pic2.jpg', 'pic2.jpg'],
+            card:{
+                datePickerId: new Date().toISOString().split("T")[0],
+                cardDescription: "",
+                cardName: "",
+                // cardStatus: false,
+                selectData: -1,
+                cardDeadline: ""
+            },
+            list:{
+                listDescription: "",
+                listName: "",
+            }
+        }},
+        methods: {
+            submitNewCard(){
+                var cardName = /^[a-zA-Z]+$/
+                var cardDescription = /^[a-zA-Z][a-zA-Z0-9]*$/
+                var flag = true;
+                if (cardName.test(this.card.cardName) === false) {
+                    flag = false;
+                }
+                if (cardDescription.test(this.card.cardDescription) === false) {
+                    flag = false;
+                }
+                if (flag == false) {
+                    console.log("Error");
+                }
+                else {
+                    //update card details
+                    console.log("post data");
+                    console.log(this.card)
+                }
+
+            },
+            
+                submitNewList() {
+
+                    console.log("Hello")
+                    var listName = /^[a-zA-Z]+$/
+                    var listDescription = /^[a-zA-Z][a-zA-Z0-9]*$/
+                    var flag = true;
+                    if (listName.test(this.list.listName) === false) {
+                        flag = false;
+                    }
+                    if (listDescription.test(this.list.listDescription) === false) {
+                        flag = false;
+                    }
+                    if (flag == false) {
+                        console.log("Error");
+                    }
+                    else {
+                        //update card details
+                        console.log("post data");
+                        console.log(this.list);
+                    }
+
+                }
+            
+        
     },
     components:{
         PersonalNavbar,
