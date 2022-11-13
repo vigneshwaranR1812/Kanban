@@ -5,7 +5,7 @@
                 <div class="col-1"></div>
                 <div class="col-10">
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Check Your Data</strong> You should check on those fields below.
+                        <strong>Check Your Data</strong> You should check on those fields below ( {{message}} ) .
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </div>
@@ -28,13 +28,7 @@
                                         aria-describedby="emailHelp" v-model="username" required>
 
                                 </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="labels" style="text-align:left">Email
-                                        Address</label>
-                                    <input type="email" class="form-control" id="ex\
-                                    ampleInputEmail1"
-                                        aria-describedby="emailHelp" v-model="email" required>
-                                </div>
+                               
                                 <div class="mb-3">
                                     <label for="exampleInputPass" class="labels"
                                         style="text-align:left">Password</label>
@@ -57,18 +51,29 @@
     </div>
 </template>
 <script>
+import store from '@/Store';
+import axios from 'axios';
+
 export default {
+    mounted() {
+        console.log(`the component is now mounted.`)
+        if (Object.keys(store.state.userData).length > 0) {
+            this.$router.push('/dashboard');
+            console.log(store.state.userData)
+        }
+    },
     data() {
         return {
             
             username: "",
            
             password: "",
-            error: false
+            error: false,
+            message: "",
         }
     },
     methods: {
-        submitData() {
+        async submitData() {
           
             var username = /^[a-zA-Z][a-zA-Z0-9]*$/;
             var password = /^[a-zA-Z0-9]+$/;
@@ -77,14 +82,33 @@ export default {
             if (username.test(this.username) == false) {
                 console.log("uname");
                 flag = false;
+                this.message+="usesName";
             }
             if (password.test(this.password) == false) {
                 console.log("flag");
                 flag = false;
+                this.message += "password";
             }
             if (flag == true) {
-                //post
-                console.log("Post Data");
+                const config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-date',
+                        // Authorization: `Bearer ${userInfo.token}`,
+                    },
+                }
+                const formData = new FormData();
+                
+                formData.append("userName", this.username);
+                formData.append("password", this.password);
+                var { data } = await axios.post("login", formData, config);
+                store.dispatch('loginUser', data.userDetails);
+                store.dispatch('getAllList',data.userDetails.token)
+                localStorage.setItem('userDetails', JSON.stringify(data.userDetails))
+                if (Object.keys(data.userDetails).length>0) {
+                    this.$router.push('/dashboard')
+                }
+                
+                
             }
             else {
                 this.error = true;

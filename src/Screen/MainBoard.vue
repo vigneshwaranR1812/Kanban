@@ -15,10 +15,12 @@
     </div>
         
        
-
+        
         <div class="row">
-            <ListCard  v-for="(key,img) in images" :key="key" :image="img" />
+            <ListCard  v-for="list in allList" :key="list.listId" :list-id="list.listId" :list-name="list.listName" :list-description="list.listDescription" :list-image="list.imageName" />
         </div>
+
+
 
     </div>
 <!-- ----------------------------------------------------------------------------------------------------------- -->
@@ -49,10 +51,9 @@
                             <div class="mb-3">
                                 <label for="listType" class="form-label">List Name</label>
                                 <select class="form-select" id="listType" aria-label="Default select example" v-model="card.selectData">
-                                    <option selected>Select Any List</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option selected disabled>Select Any List</option>
+                                    <option v-for="list in allList" :key="list.listId" v-bind:value="list.listId">{{list.listName}}</option>
+                                    
                                 </select>
                             </div>
                             <!-- Adding card Deadline Date -->
@@ -110,7 +111,10 @@
 <script>
 import PersonalNavbar from '../components/PersonnalNavbar.vue'
 import ListCard from '../components/ListCard.vue'
+import axios from 'axios'
+import store from '@/Store'
 export default{
+    
     data(){
         return {
             images: ['pic1.jpg', 'pic2.jpg', 'pic2.jpg'],
@@ -125,12 +129,22 @@ export default{
             list:{
                 listDescription: "",
                 listName: "",
-            }
+            },
+            message:"",
         }},
+        computed:{
+            allList:()=>{
+                return store.state.allList;
+            }
+        },
+    mounted: () => {
+        store.dispatch('getAllList', store.state.userData.token);
+
+    },
         methods: {
-            submitNewCard(){
-                var cardName = /^[a-zA-Z]+$/
-                var cardDescription = /^[a-zA-Z][a-zA-Z0-9]*$/
+            async submitNewCard(){
+                var cardName = /^[a-zA-Z ]+$/
+                var cardDescription = /^[a-zA-Z ][a-zA-Z0-9 ]*$/
                 var flag = true;
                 if (cardName.test(this.card.cardName) === false) {
                     flag = false;
@@ -144,30 +158,62 @@ export default{
                 else {
                     //update card details
                     console.log("post data");
-                    console.log(this.card)
+                    console.log(this.card);
+                    const formData=new FormData();
+                    const config = {
+                        headers: {
+                            'Content-Type': 'multipart/form-date',
+                            'x-access-token': store.state.userData.token
+                            // Authorization: `Bearer ${userInfo.token}`,
+                        },
+                    }
+                    formData.append("cardName", this.card.cardName);
+                    formData.append("cardDescription", this.card.cardDescription);
+                    formData.append("deadLineDate", this.card.cardDeadline);
+                    await axios.post("createCard/"+this.card.selectData, formData,config );
+                    setTimeout(
+                        window.location.reload()
+                        , 2000);
                 }
 
             },
             
-                submitNewList() {
+                async submitNewList() {
 
-                    console.log("Hello")
-                    var listName = /^[a-zA-Z]+$/
-                    var listDescription = /^[a-zA-Z][a-zA-Z0-9]*$/
+                    console.log(store.state.userData)
+                    var listName = /^[a-zA-Z ]+$/
+                    var listDescription = /^[a-zA-Z ][a-zA-Z0-9 ]*$/
                     var flag = true;
                     if (listName.test(this.list.listName) === false) {
                         flag = false;
+                        this.message+="Not a proper List Name. ";
                     }
                     if (listDescription.test(this.list.listDescription) === false) {
                         flag = false;
+                        this.message += "Not a proper List Description. ";
                     }
                     if (flag == false) {
-                        console.log("Error");
+                        alert("Message: "+this.message);
                     }
                     else {
-                        //update card details
-                        console.log("post data");
-                        console.log(this.list);
+                        console.log(store.state.userData.token)
+                        const config = {
+                            headers: {
+                                'Content-Type': 'multipart/form-date',
+                                'x-access-token':store.state.userData.token
+                                // Authorization: `Bearer ${userInfo.token}`,
+                            },
+                        }
+                        const formData = new FormData();
+                        formData.append("listName", this.list.listName);
+                        formData.append("listDescription", this.list.listDescription);
+                        formData.append("imageName", "dummyName");
+                        await axios.post("createlist", formData, config);
+                        store.dispatch('getAllList', store.state.userData.token);
+                        setTimeout(
+                            window.location.reload()
+                        ,2000);
+                        console.log("Hello")
                     }
 
                 }

@@ -1,31 +1,25 @@
 <template>
     <div class="col-lg-6 col-md-6 col-sm-12 p-3">
+        
         <div class="card">
             <div class="row">
-                <div class="col-4">
-                    <img src="../assets/images/pic2.jpg" class="card-img-top" alt="..."
-                        style="height:200px;width:100%;background-position:cover;background-size:cover;padding:5px">
-                </div>
-                <div class="col-8">
+                <div class="col-12">
                     <div class="card-body">
-                        <h5 class="card-title">List Name</h5>
-                        <p class="card-text">Descriptions about list Lorem ipsum dolor Descriptions about list Lorem ipsum dolor
-                            Descriptions about &nbsp;<a href="/listId/" class="text-danger" data-bs-toggle="modal"
-                                data-bs-target="#displayDesc">Show More
+                        <h5 class="card-title">{{listName}} &nbsp; &nbsp; <span class="badge bg-info">5-Cards</span></h5>
+                        <p class="card-text">{{listDescription.substring(0,100)}} &nbsp;<a href="" class="text-danger" data-bs-toggle="modal"
+                                :data-bs-target="'#'+listId">Show More {{listId}}
                             </a>
                         </p>
                         <div class="d-flex flex-row justify-content-around">
                             
                             <div >
-                                <button type="button" class="btn btn-danger  px-3  py-1" data-bs-toggle="modal"
-                                    data-bs-target="#editList">
+                                <a type="button" class="btn btn-danger  px-3  py-1" :href="'/editList/'+listId">
                                     <!-- <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" icon="pen" /> Edit -->
                                     Edit
-                                </button>
+                                </a>
                             </div>
                             <div >
-                                <button type="button" class="btn btn-danger  px-3  py-1" data-bs-toggle="modal"
-                                    data-bs-target="#deleteList">
+                                <button type="button" class="btn btn-danger   px-3  py-1"  @click="deleteList(listId)" >
                                     <span data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
                                         <!-- <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Delete" icon="trash" /> Delete -->
                                         Delete
@@ -39,12 +33,17 @@
                                 </button>
                             </div>
                             <div>
-                                <a href="/list" class="btn btn-danger px-3 py-1">
+                                <a :href="'/list/'+listId" class="btn btn-danger px-3 py-1">
                                     <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Open"
                                         icon="right-to-bracket" />
                                 </a>
                             </div>
                         </div>
+                        
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar  bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
                     </div>
                     </div>
                 </div>
@@ -67,12 +66,12 @@
                                 <!-- Editing List Name -->
                                 <div class="mb-3">
                                     <label for="cardName" class="form-label">List Name</label>
-                                    <input type="text" class="form-control" id="cardName" v-model="listName">
+                                    <input type="text" class="form-control" id="cardName"  v-model="editListName">
                                 </div>
                                 <!-- Editing List Description -->
                                 <div class="mb-3">
                                     <label for="cardDesc" class="form-label">List Description</label>
-                                    <textarea class="form-control" id="cardDesc" rows="3" v-model="listDescription"></textarea>
+                                    <textarea class="form-control" id="cardDesc" rows="3"  v-model="editListDescription"></textarea>
                                 </div>
                             </form>
     
@@ -116,7 +115,7 @@
     </div>
     <!-- -------------------------------------------------------------------------------------------------------------- -->
     <!-- Modal for Displaying List Description -->
-    <div class="modal fade" id="displayDesc" tabindex="-1" aria-labelledby="displayDesc" aria-hidden="true">
+    <div class="modal fade" :id="listId" tabindex="-1" aria-labelledby="displayDesc" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Header Title -->
@@ -128,8 +127,8 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="text-center">
-                            <h1>List Name</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam, minima? Nam asperiores ullam dolores doloremque dolorum accusamus, delectus officia consectetur, nemo, dolorem magnam molestiae officiis soluta iste sunt! Tempora, ipsum.</p>
+                            <h1>{{displayName}}</h1>
+                            <p>{{displayDescription}}</p>
                         </div>
     
                     </div>
@@ -143,17 +142,26 @@
     </div>
 </template>
 <script>
+import store from '@/Store'
+// import store from '@/Store'
+
 
     export default {
-            props: ['image'],
+            props: ['listId','listName','listDescription','listImage'],
             data(){
                 return {
-                    listDescription: "",
-                    listName: "",
+                    listIdFromProps:this.listId,
+                    displayName:this.listName,
+                    displayDescription:this.listDescription,
+                    editListName:this.listName,
+                    editListDescription:this.listDescription
                 }
             },
             
             methods:{
+                reduceLength:()=>{
+                    this.listDescription
+                },
                 submitEditList() {
 
                     console.log("Hello")
@@ -175,6 +183,18 @@
                         console.log(this.listDescription, this.listName)
                     }
 
+                },
+                deleteList:(listId)=>{
+                    console.log(listId);
+                    const prompt=window.prompt("Dou you Want to Delete it? Type `Delete List`");
+                    if (prompt === "Delete List"){
+                        console.log(listId);
+                        store.dispatch('deleteList',{data:store.state.userData.token,id:listId});
+                    }
+                    else
+                        // alert("List is Not Deleted Try Again!!");
+                        // window.location.reload();
+                        console.log("Hello")
                 }
             },
 
@@ -184,3 +204,29 @@
 
 </script>
 <style></style>
+
+//     {
+//         "listId": 5,
+//         "listName": "abcd",
+//         "listDescription": "abcdefgh",
+//         "imageName": "dummyName"
+//     },
+//     {
+//         "listId": 6,
+//         "listName": "abcdweret",
+//         "listDescription": "abcdefgh",
+//         "imageName": "dummyName"
+//     },
+//     {
+//         "listId": 7,
+//         "listName": "abcdweretytu",
+//         "listDescription": "abcdefgh",
+//         "imageName": "dummyName"
+//     },
+//     {
+//         "listId": 8,
+//         "listName": "querty",
+//         "listDescription": "fucku",
+//         "imageName": "dummyName"
+//     }
+// ]

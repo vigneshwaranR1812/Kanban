@@ -22,7 +22,8 @@
             </div>
         </div>
         <div class="row">
-            <CardCard v-for="(key, img) in images" :key="key" :image="img" />
+            
+            <CardCard v-for="card in allCard" :key="card.cardId" :cardId="card.cardId" :cardName="card.cardName" :cardDescription="card.cardDescription" :deadLineDate="card.deadLineDate" :status="card.status" :listId="listId"/>
         </div>
 
     </div>
@@ -49,28 +50,11 @@
                             <label for="cardDesc" class="form-label">Card Description</label>
                             <textarea class="form-control" id="cardDesc" rows="3" v-model="cardDescription"></textarea>
                         </div>
-                        <!-- Adding List Name -->
-                        <div class="mb-3">
-                            <label for="listType" class="form-label">List Name</label>
-                            <select class="form-select" id="listType" aria-label="Default select example"
-                                v-model="selectData">
-                                <option selected>Select Any List</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
                         <!-- Adding card Deadline Date -->
                         <div class="mb-3">
                             <label for="deadLine" class="form-label">DeadLine Date</label>
                             <input type="date" class="form-control" id="deadLine" v-bind:min="datePickerId" v-model="cardDeadline">
                         </div>
-
-                        <!-- Adding card completion flag-->
-                        <!-- <div class="mb-3 form-check">
-                                    <input type="checkbox" class="form-check-input" id="completeCheck">
-                                    <label class="form-check-label" for="completeCheck">Completed</label>
-                                </div> -->
                     </form>
 
                 </div>
@@ -88,45 +72,78 @@
 <script>
 import PersonalNavbar from '../components/PersonnalNavbar.vue'
 import CardCard from '../components/ListOfcard.vue'
+import { router } from '@/main'
+import store from '@/Store'
+// import axios from 'axios'
 export default {
     data() {
         return {
-              images: ['pic1.jpg', 'pic2.jpg', 'pic2.jpg'],
             datePickerId: new Date().toISOString().split("T")[0],
             cardDescription: "",
             cardName: "",
-            cardStatus: false,
-            selectData: -1,
-            cardDeadline: ""
+            cardDeadline: "",
+            listId: router.currentRoute._value.params.id
+        }
+    },
+    computed:{
+        allCard:()=>{
+            return store.state.getAllCard
         }
     },
 
     methods: {
-        
-        submitNewCard() {
-            var cardName = /^[a-zA-Z]+$/
-            var cardDescription = /^[a-zA-Z][a-zA-Z0-9]*$/
-            var flag = true;
-            if (cardName.test(this.cardName) === false) {
-                flag = false;
-            }
-            if (cardDescription.test(this.cardDescription) === false) {
-                flag = false;
-            }
-            if (flag == false) {
-                console.log("Error");
-            }
-            else {
-                //update card details
-                console.log("post data");
-                console.log(this.cardDescription, this.cardName, this.cardStatus, this.selectData, this.cardDeadline)
-            }
+        async submitNewCard() {
+                var cardName = /^[a-zA-Z ]+$/
+                var cardDescription = /^[a-zA-Z ][a-zA-Z0-9 ]*$/
+                var flag = true;
+                if (cardName.test(this.cardName) === false) {
+                    flag = false;
+                }
+                if (cardDescription.test(this.cardDescription) === false) {
+                    flag = false;
+                }
+                console.log(this.cardName)
+                if (flag == false) {
+                    console.log("Error");
+                }
+                else {
+                    //update card details
+                    console.log("post data");
+                    const formData = new FormData();
+                    // const config = {
+                    //     headers: {
+                    //         'Content-Type': 'multipart/form-date',
+                    //         'x-access-token': store.state.userData.token
+                    //     },
+                    // }
+                    formData.append("cardName", this.cardName);
+                    formData.append("cardDescription", this.cardDescription);
+                    formData.append("deadLineDate", this.cardDeadline);
+                    var listId = router.currentRoute._value.params.id;
+                    store.dispatch('createCard',{formData:formData,listId:listId})
+                    // const { data } = await axios.post("createCard/" + listId, formData, config);
+                    // console.log(data);
 
+                    // setTimeout(
+                    //     window.location.reload()
+                    //     , 2000);
+                }
+
+            
         }
-    },
+
+        },
     components: {
         PersonalNavbar,
         CardCard
+    },
+    created: async () => {
+
+        console.log(router.currentRoute._value.params.id);
+        store.dispatch('getAllCardById', router.currentRoute._value.params.id)
+
+
+
     }
 }
 </script>
