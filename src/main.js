@@ -9,6 +9,7 @@ import MainBoard from "./Screen/MainBoard.vue";
 import CardCard from "./Screen/CardCard.vue";
 import EditListForm from "./Screen/EditListForm.vue";
 import EditCardForm from "./Screen/EditCardForm.vue";
+import ProfileView from "./Screen/ProfileView.vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -30,6 +31,7 @@ export const router = createRouter({
     { path: "/login", component: LoginIn },
     { path: "/dashboard", component: MainBoard },
     { path: "/list/:id", component: CardCard },
+    { path: "/profile", component: ProfileView },
 
     // { path: "", component: HomeScreen },
   ],
