@@ -7,7 +7,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/dashboard">DashBoard</a></li>
-
+                        <li class="breadcrumb-item"><a :href="'/list/'+listId">List</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Edit List</li>
                     </ol>
                 </nav>
@@ -76,6 +76,7 @@ export default {
     data: () => {
         return {
             datePickerId: new Date().toISOString().split("T")[0],
+            listId:router.currentRoute._value.params.listId
 
         }
     },

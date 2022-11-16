@@ -27,7 +27,7 @@
                         </a>
                     </div>
                     <div >
-                        <button type="button" class="btn btn-danger  px-3  py-1" @click="deleteCard(listId,cardId)">
+                        <button v-if="status==='false'" type="button" class="btn btn-danger  px-3  py-1" @click="deleteCard(listId,cardId)">
                             <span data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
                                 <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"
                                     icon="trash" />&nbsp;&nbsp;Delete

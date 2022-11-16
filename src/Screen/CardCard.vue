@@ -22,7 +22,77 @@
         </button>
       </div>
     </div>
-    <div class="row">
+    
+    <ul class="nav nav-tabs mt-4" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab"
+          aria-controls="home" aria-selected="true">Active Task</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab"
+          aria-controls="profile" aria-selected="false">Completed Task</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#summary" type="button" role="tab"
+          aria-controls="profile" aria-selected="false">Summary</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="row">
+          <CardCard v-for="card in allActiveCard"  :key="card.cardId" :cardId="card.cardId" :cardName="card.cardName"
+            :cardDescription="card.cardDescription" :deadLineDate="card.deadLineDate" :status="card.status" :listId="listId" />
+        </div>
+    </div>
+      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="row">
+          <CardCard v-for="card in allCompletedCard" :key="card.cardId" :cardId="card.cardId" :cardName="card.cardName"
+            :cardDescription="card.cardDescription" :deadLineDate="card.deadLineDate" :status="card.status" :listId="listId" />
+        </div>
+      </div>
+      <div class="tab-pane fade mt-4" id="summary" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="row">
+          <div class="col-sm-6 col-md-3">
+            <div class="card text-dark bg-secondary mb-3">
+              <div class="card-body">
+                <h5 class="card-title text-center">Total Task</h5>
+                <h5 class="card-text text-center">{{cardCount}}
+                </h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="card text-white bg-success mb-3">
+              <div class="card-body">
+                <h5 class="card-title text-center">Completed Task</h5>
+                <h5 class="card-text text-center">{{ countCompletedCard }}
+                </h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="card text-white bg-warning mb-3">
+              <div class="card-body">
+                <h5 class="card-title text-center">Not Completed Task</h5>
+                <h5 class="card-text text-center">{{countActiveCard}}
+                </h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-3">
+            <div class="card text-white bg-danger mb-3">
+              <div class="card-body">
+                <h5 class="card-title text-center">Deadline Task</h5>
+                <h5 class="card-text text-center">{{ countDeadLineCard }}
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <!-- <div class="row">
       <CardCard
         v-for="card in allCard"
         :key="card.cardId"
@@ -33,7 +103,7 @@
         :status="card.status"
         :listId="listId"
       />
-    </div>
+    </div> -->
   </div>
   <!-- ----------------------------------------------------------------------------------------------------------- -->
   <!-- Modal for the Adding Card-->
@@ -116,9 +186,38 @@ export default {
     };
   },
   computed: {
-    allCard: () => {
-      return store.state.getAllCard;
+    allActiveCard: () => {
+      return store.state.getAllCard.filter((arr)=>{
+        return arr.status==='false'
+      });
+
     },
+    allCompletedCard: () => {
+      return store.state.getAllCard.filter((arr) => {
+        return arr.status === 'true'
+      });
+
+    },
+    cardCount:()=>{
+      return store.state.getAllCard.length;
+    },
+    countActiveCard:()=>{
+      return store.state.getAllCard.filter((arr) => {
+        return arr.status === 'false'
+      }).length;
+    },
+    countCompletedCard: () => {
+      return store.state.getAllCard.filter((arr) => {
+        return arr.status === 'true'
+      }).length;
+    },
+    countDeadLineCard: () => {
+      return store.state.getAllCard.filter((arr) => {
+        return new Date(arr.deadLineDate) < new Date()
+      }).length;
+    }
+
+
   },
 
   methods: {
