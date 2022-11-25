@@ -5,10 +5,14 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-body">
-                        <h5 class="card-title">{{listName}} &nbsp; &nbsp; <span class="badge bg-info">5-Cards</span></h5>
-                        <p class="card-text">{{listDescription.substring(0,100)}} &nbsp;<a href="" class="text-danger" data-bs-toggle="modal"
-                                :data-bs-target="'#'+listId">Show More {{listId}}
-                            </a>
+                        <h5 class="card-title">{{listName}} &nbsp; &nbsp; <span class="badge bg-info">{{ totalCard }} cards</span></h5>
+                        <p class="card-text">{{listDescription.substring(0,100)}} &nbsp;
+                           
+                            
+                            
+                            <!-- <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" title="Popover title"
+                                data-bs-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button> -->
+                            <a href="#" class="text-danger" @click="alertDisplay(listDescription);">Show More</a>
                         </p>
                         <div class="d-flex flex-row justify-content-around">
                             
@@ -26,12 +30,7 @@
                                     </span>
                                 </button>
                             </div>
-                            <div>
-                                <button type="button" class="btn btn-danger  px-3  py-1"  data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    <!-- <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Add" icon="chart-simple" />  -->
-                                    Summary
-                                </button>
-                            </div>
+                           
                             <div>
                                 <a :href="'/list/'+listId" class="btn btn-danger px-3 py-1">
                                     <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Open"
@@ -42,8 +41,8 @@
                         
                     </div>
                     <div class="progress">
-                        <div class="progress-bar  bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                            aria-valuemax="100"></div>
+                        <div class="progress-bar  bg-success" role="progressbar" :style="{ width: completedPercent+'%'}" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100">{{completedPercent+'%'}}</div>
                     </div>
                     </div>
                 </div>
@@ -143,26 +142,65 @@
 </template>
 <script>
 import store from '@/Store'
+
+
 // import store from '@/Store'
 
 
     export default {
             props: ['listId','listName','listDescription','listImage'],
+            
             data(){
                 return {
                     listIdFromProps:this.listId,
                     displayName:this.listName,
                     displayDescription:this.listDescription,
                     editListName:this.listName,
-                    editListDescription:this.listDescription
+                    editListDescription:this.listDescription,
+                    count:0,
+                    totalCard:0,
+                    completedPercent:0
+
                 }
             },
-            
+            async created() {
+                setTimeout(()=>{
+                    
+                    for (const key in store.state.allCardCount) {
+                        if (store.state.allCardCount[key].listId===this.listId){
+                            this.totalCard = store.state.allCardCount[key].tc;
+                            this.completedPercent = (store.state.allCardCount[key].cc /store.state.allCardCount[key].tc)*100;
+                        }
+                       
+                    }
+                    console.log(this.totalCard);
+                    console.log(this.completedPercent)
+                
+                },4000)
+            },
+        
+            computed: {
+               
+                    allTotalCard: () => {
+                   
+                       
+
+                    }, 
+                    // console.log(store.state.allCardCount)
+                //     const data = store.state.allCardCount.filter((count) => count.listId === listId);
+                //     return data.total_cards
+                
+                
+            },
             methods:{
+                
+                alertDisplay: (listDescription) => {
+                    alert(listDescription);
+                },
                 reduceLength:()=>{
                     this.listDescription
                 },
-                submitEditList() {
+               submitEditList() {
 
                     console.log("Hello")
                     var listName = /^[a-zA-Z]+$/
@@ -197,36 +235,11 @@ import store from '@/Store'
                         console.log("Hello")
                 }
             },
-
             
+
+        
             
     }
 
 </script>
 <style></style>
-
-//     {
-//         "listId": 5,
-//         "listName": "abcd",
-//         "listDescription": "abcdefgh",
-//         "imageName": "dummyName"
-//     },
-//     {
-//         "listId": 6,
-//         "listName": "abcdweret",
-//         "listDescription": "abcdefgh",
-//         "imageName": "dummyName"
-//     },
-//     {
-//         "listId": 7,
-//         "listName": "abcdweretytu",
-//         "listDescription": "abcdefgh",
-//         "imageName": "dummyName"
-//     },
-//     {
-//         "listId": 8,
-//         "listName": "querty",
-//         "listDescription": "fucku",
-//         "imageName": "dummyName"
-//     }
-// ]

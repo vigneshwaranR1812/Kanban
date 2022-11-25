@@ -83,13 +83,6 @@ export default {
     },
     methods:{
         fetchListData:()=>{
-            // const config = {
-            //     headers: {
-            //         'Content-Type': 'multipart/form-date',
-            //         'x-access-token': store.state.userData.token
-            //         // Authorization: `Bearer ${userInfo.token}`,
-            //     },
-            // } 
             const formData=new FormData();
             console.log(store.state.getList.listName);
             console.log(store.state.getList.listDescription);
@@ -107,9 +100,6 @@ export default {
         
         console.log(router.currentRoute._value.params.id);
         store.dispatch('getList', router.currentRoute._value.params.id)
-        
-        
-        
     }
     
 }

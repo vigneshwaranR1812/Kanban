@@ -12,6 +12,7 @@ const store = createStore({
     getList: {},
     getAllCard: [],
     getCard: {},
+    allCardCount: [],
   },
   //changing data in state
   mutations: {
@@ -29,6 +30,16 @@ const store = createStore({
     getList: (state, data) => {
       state.getList = data;
     },
+    getAllCardCount: (state, data) => {
+      var boolean = true;
+      state.allCardCount.map((arr) => {
+        if (arr.listId === data.listId) {
+          boolean = false;
+        }
+        return;
+      });
+      if (boolean) state.allCardCount.push(data);
+    },
     setListName: (state, data) => {
       state.getList.listName = data;
     },
@@ -45,10 +56,10 @@ const store = createStore({
       state.getCard.deadLineDate = data;
     },
     setCardListId: (state, data) => {
-      state.getList.listId = data;
+      state.getCard.listId = data;
     },
     setCardStatus: (state, data) => {
-      state.getList.status = data;
+      state.getCard.status = data;
     },
     getAllCardById: (state, data) => {
       state.getAllCard = data;
@@ -65,6 +76,36 @@ const store = createStore({
     logOutUser: (context) => {
       context.commit("logOut");
     },
+    getAllCardCount: async (context, list) => {
+      console.log(typeof list);
+      console.log(store.state.userData.token);
+
+      const config = {
+        headers: {
+          "x-access-token": store.state.userData.token,
+        },
+      };
+      await list.map(async (ls) => {
+        try {
+          const { data } = await axios.get(
+            "/getCardCount/" + ls.listId,
+            config
+          );
+          console.log(data);
+          var val = {
+            tc: data.total_cards,
+            cc: data.completed_card,
+            ic: data.incomplete_card,
+            listId: ls.listId,
+          };
+          context.commit("getAllCardCount", val);
+          console.log(store.state.allCardCount);
+        } catch (err) {
+          // context.commit("logOut");
+          // window.location.href = "/login";
+        }
+      });
+    },
     getAllList: async (context, token) => {
       const config = {
         headers: {
@@ -75,6 +116,7 @@ const store = createStore({
       try {
         const { data } = await axios.get("/getAllList", config);
         context.commit("getAllList", data.Lists);
+        context.dispatch("getAllCardCount", data.Lists);
       } catch (err) {
         context.commit("logOut");
         window.location.href = "/login";
@@ -159,7 +201,8 @@ const store = createStore({
         const { data } = await axios.get("/getAllCard/" + id, config);
         console.log(data.message);
         if (data.message === "Cannot display all card") {
-          window.location.href = "/dashboard";
+          // window.location.href = "/dashboard";
+          console.log(data);
         } else {
           store.commit("getAllCardById", data.message);
         }
@@ -214,8 +257,8 @@ const store = createStore({
           window.location.href = "/list/" + listId;
         }
       } catch (err) {
-        context.commit("logOut");
-        window.location.href = "/login";
+        // context.commit("logOut");
+        // window.location.href = "/login";
       }
     },
     deleteCard: async (context, { data, listId, cardId }) => {

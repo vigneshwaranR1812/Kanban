@@ -17,7 +17,7 @@
        
         
         <div class="row">
-            <ListCard  v-for="list in allList" :key="list.listId" :list-id="list.listId" :list-name="list.listName" :list-description="list.listDescription" :list-image="list.imageName" />
+            <ListCard  v-for="list in allList"  :key="list.listId" :list-id="list.listId" :list-name="list.listName" :list-description="list.listDescription" :list-image="list.imageName" />
         </div>
 
 
@@ -134,12 +134,13 @@ export default{
         }},
         computed:{
             allList:()=>{
+                console.log(store.state.allList)
                 return store.state.allList;
             }
         },
     mounted: () => {
         store.dispatch('getAllList', store.state.userData.token);
-
+        console.log(store.state.allList)
     },
         methods: {
             async submitNewCard(){

@@ -47,7 +47,7 @@
       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <div class="row">
           <CardCard v-for="card in allCompletedCard" :key="card.cardId" :cardId="card.cardId" :cardName="card.cardName"
-            :cardDescription="card.cardDescription" :deadLineDate="card.deadLineDate" :status="card.status" :listId="listId" />
+            :cardDescription="card.cardDescription" :deadLineDate="card.deadLineDate" :status="card.status" :listId="listId" :cardCompletedDate="card.cardCompletedDate" />
         </div>
       </div>
       <div class="tab-pane fade mt-4" id="summary" role="tabpanel" aria-labelledby="profile-tab">
@@ -89,24 +89,16 @@
             </div>
           </div>
         </div>
+        <div class="row mx-auto mb-5">
+          <canvas width="90%" id="myChart"></canvas>
+        </div>
       </div>
       
     </div>
-    <!-- <div class="row">
-      <CardCard
-        v-for="card in allCard"
-        :key="card.cardId"
-        :cardId="card.cardId"
-        :cardName="card.cardName"
-        :cardDescription="card.cardDescription"
-        :deadLineDate="card.deadLineDate"
-        :status="card.status"
-        :listId="listId"
-      />
-    </div> -->
+    
+    
   </div>
-  <!-- ----------------------------------------------------------------------------------------------------------- -->
-  <!-- Modal for the Adding Card-->
+  
   <div
     class="modal fade"
     id="addingCard"
@@ -170,6 +162,8 @@
 </template>
 
 <script>
+import { Chart, registerables } from 'chart.js';
+
 import PersonalNavbar from "../components/PersonnalNavbar.vue";
 import CardCard from "../components/ListOfcard.vue";
 import { router } from "@/main";
@@ -183,7 +177,83 @@ export default {
       cardName: "",
       cardDeadline: "",
       listId: router.currentRoute._value.params.id,
+      loading:true
     };
+  },
+  async mounted(){
+    setTimeout(()=>{
+      console.log(store.state.getAllCard)
+      
+      console.log(this.completedForMonth);
+      console.log(this.notCompletedForMonth);
+      console.log(this.allCardForMonth);
+      Chart.register(...registerables);
+      const ctx = document.getElementById('myChart');
+      const labels = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      const data = {
+        labels: labels,
+        datasets: [{
+          label: 'Task Accomplished',
+          data: this.completedForMonth,
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
+        },
+        {
+          label: 'Task Created',
+          data: this.allCardForMonth,
+          fill: false,
+          borderColor: 'rgb(255, 192, 192)',
+          tension: 0.1
+        },
+          {
+            label: 'Task Not Yet Completed',
+            data: this.notCompletedForMonth,
+            fill: false,
+            borderColor: 'rgb(45, 192, 30)',
+            tension: 0.1
+          }
+      ]
+      };
+      const config = {
+        type: 'line',
+        data: data,
+        options: {
+          responsive: true,
+          interaction: {
+            mode: 'index',
+            intersect: false,
+          },
+          stacked: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Chart.js Line Chart - Multi Axis'
+            }
+          },
+          scales: {
+            y: {
+              type: 'linear',
+              display: true,
+              position: 'left',
+            },
+            y1: {
+              type: 'linear',
+              display: true,
+              position: 'right',
+
+              // grid line settings
+              grid: {
+                drawOnChartArea: false, // only want the grid lines for one axis to show up
+              },
+            },
+          }
+        },
+      };
+      new Chart(ctx, config);
+      this.loading=false
+    },5000)
+    
   },
   computed: {
     allActiveCard: () => {
@@ -196,6 +266,50 @@ export default {
       return store.state.getAllCard.filter((arr) => {
         return arr.status === 'true'
       });
+
+    },
+    notCompletedForMonth:()=>{
+      var countArr=[0,0,0,0,0,0,0,0,0,0,0,0];
+      // var year=new Date().getFullYear();
+      // && new Date(arr.cardCreatedDate).getFullYear() === year
+      console.log(store.state.getAllCard);
+      var notCompleted=store.state.getAllCard.filter((arr) => {        
+        return arr.status === 'false' && new Date(arr.deadLineDate) < new Date() 
+      });
+      
+      notCompleted.map((maps) => {
+        var data = maps.deadLineDate;
+        data = new Date(data).getMonth();
+        countArr[data]++;
+      })
+      console.log(countArr)
+      return countArr
+    },
+    completedForMonth:()=>{
+      var completedArr=[0,0,0,0,0,0,0,0,0,0,0,0];
+      const year=new Date().getFullYear();
+      const completed = store.state.getAllCard.filter((arr) => {
+        return arr.status === 'true' && new Date(arr.cardCompletedDate).getFullYear() === year
+      });
+      completed.map((maps)=>{
+        var data = maps.cardCompletedDate;
+        data=new Date(data).getMonth();
+        completedArr[data]++;
+      })
+      return completedArr;
+    },
+    allCardForMonth:()=>{
+      var dataArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      const year = new Date().getFullYear();
+      const data = store.state.getAllCard.filter((arr)=>{
+        return new Date(arr.cardCreatedDate).getFullYear()===year;
+      });
+      data.map((maps) => {
+        var data = maps.cardCreatedDate;
+        data = new Date(data).getMonth();
+        dataArr[data]++;
+      })
+      return dataArr;
 
     },
     cardCount:()=>{

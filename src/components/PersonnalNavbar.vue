@@ -14,9 +14,9 @@
                     <li class="nav-item">
                         <a class="nav-link" style="color:white" href="/dashboard">DashBoard</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" style="color:white" aria-current="page" href="/profile">profile</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" style="color:white" href="/" @click="logoutdata">Logout</a>
                     </li>

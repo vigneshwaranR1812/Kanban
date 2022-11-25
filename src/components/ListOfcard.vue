@@ -5,9 +5,9 @@
             <div class="card-body">
                 <h5 class=" card-title">{{cardName}} &nbsp;&nbsp;&nbsp;&nbsp;<span v-if="deadLineConvert < currDate && status === 'false'" class="badge rounded-pill bg-danger">
                     {{"Not Completed Yet".toLowerCase()}}</span></h5> 
-                <p class="card-text">{{cardDescription.substring(0,100)}} &nbsp;<a href="/listId/" class="text-danger" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">Show More
+                <p class="card-text">{{cardDescription.substring(0,100)}} &nbsp;<a href="#" class="text-danger"  @click="alertDisplay(cardDescription)">Show More
                     </a></p>
+                    <p v-if="cardCompletedDate">Completed On:&nbsp;&nbsp;{{cardCompletedDate}}</p>
                 <p>DeadLine On:&nbsp;&nbsp;{{deadLineDate}}</p>
                 <p>Current Status:&nbsp;&nbsp;<span v-if="status === 'false'" class="badge rounded-pill bg-success">
                     {{"Active".toLowerCase()}}</span><span v-if=" status === 'true'" class="badge rounded-pill bg-info">
@@ -50,7 +50,7 @@ import store from '@/Store';
 
 
 export default {
-    props: ['cardId', 'cardName', 'cardDescription', 'status', 'deadLineDate','listId'],
+    props: ['cardId', 'cardName', 'cardDescription', 'status', 'deadLineDate', 'listId','cardCompletedDate'],
     data() {
         return {
            currDate:new Date(),
@@ -59,6 +59,9 @@ export default {
     },
 
     methods: {
+        alertDisplay: (listDescription) => {
+            alert(listDescription);
+        },
         deleteCard:(listId,cardId)=>{
             console.log(listId);
             const prompt = window.prompt("Dou you Want to Delete it? Type `Delete Card`");

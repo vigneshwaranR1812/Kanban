@@ -42,9 +42,13 @@
                                 </select>
                             </div>
                             <!-- Editing card Deadline Date -->
-                            <div class="mb-3">
-                                <label for="deadLine" class="form-label">DeadLine Date</label>
-                                <input type="date" class="form-control" id="deadLine" v-bind:min="datePickerId" v-model="deadLineDate">
+                            <div class="mb-3" v-if="new Date() < new Date(deadLineDate)">
+                                <label for="deadLine1" class="form-label">DeadLine Date</label>
+                                <input type="date" class="form-control" id="deadLine1" v-bind:min="datePickerId" v-model="deadLineDate">
+                            </div>
+                            <div class="mb-3" v-if="new Date() > new Date(deadLineDate)">
+                                <label for="deadLine2" class="form-label">DeadLine Date</label>
+                                <input type="date" class="form-control" id="deadLine2"  v-model="deadLineDate">
                             </div>
                             <!-- Editing card completion flag-->
                             <div class="mb-3 form-check">
@@ -115,10 +119,16 @@ export default {
         },
         status: {
             get() {
+                console.log(this.$store.state.getCard.status)
                 return this.$store.state.getCard.status
             },
             set(value) {
-                this.$store.commit('setCardStatus', value)
+                console.log(value)
+                if(value)
+                    this.$store.commit('setCardStatus', "true")
+                if (!value)
+                    this.$store.commit('setCardStatus', "false")
+                console.log(store.state.getCard.status);
             }
         },
         allList:()=>{
@@ -130,20 +140,30 @@ export default {
     methods: {
         updateCardData: () => {
             const formData = new FormData();
-            console.log(store.state.getList.listName);
-            console.log(store.state.getList.listDescription);
+            // console.log(store.state.getList.listName);
+            // console.log(store.state.getList.listDescription);
+            // console.log(store.state.getCard.cardName);
+            // console.log(store.state.getCard.cardDescription);
+            // console.log(store.state.getCard.deadLineDate);
+            // console.log(store.state.getCard.listId);
+            // console.log(store.state.getCard.cardId);
+            // console.log(store.state.getCard.status);
+
 
             formData.append("cardName", store.state.getCard.cardName);
             formData.append("cardDescription", store.state.getCard.cardDescription);
             formData.append("deadLineDate", store.state.getCard.deadLineDate);
             formData.append("listName", store.state.getCard.listId);
-            // formData.append("", store.state.getList.listName);
+            console.log(store.state.getCard)
+            formData.append("status", store.state.getCard.status);
             // formData.append("cardDescription", store.state.getCard.cardDescription);
             // store.dispatch('updateListById', formData)
             
-            const promt=window.prompt("Are you sure you v=want to edit the Card Details? Confirm By typing `Edit Card`");
-            if(promt==='Edit Card')
+            const promt=window.prompt("Are you sure you want to edit the Card Details? Confirm By typing `Edit Card`");
+            if(promt==='Edit Card'){
+            console.log(store.state.getCard.status)
             store.dispatch('updateCard', { listId: router.currentRoute._value.params.listId, cardId: router.currentRoute._value.params.cardId,formData:formData })
+            }
             else{
                 window.location.href = "/list/" + router.currentRoute._value.params.listId;
             }
