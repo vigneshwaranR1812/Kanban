@@ -116,6 +116,7 @@ const store = createStore({
       try {
         const { data } = await axios.get("/getAllList", config);
         context.commit("getAllList", data.Lists);
+        console.log(data);
         context.dispatch("getAllCardCount", data.Lists);
       } catch (err) {
         context.commit("logOut");

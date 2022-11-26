@@ -140,16 +140,6 @@ export default {
     methods: {
         updateCardData: () => {
             const formData = new FormData();
-            // console.log(store.state.getList.listName);
-            // console.log(store.state.getList.listDescription);
-            // console.log(store.state.getCard.cardName);
-            // console.log(store.state.getCard.cardDescription);
-            // console.log(store.state.getCard.deadLineDate);
-            // console.log(store.state.getCard.listId);
-            // console.log(store.state.getCard.cardId);
-            // console.log(store.state.getCard.status);
-
-
             formData.append("cardName", store.state.getCard.cardName);
             formData.append("cardDescription", store.state.getCard.cardDescription);
             formData.append("deadLineDate", store.state.getCard.deadLineDate);
