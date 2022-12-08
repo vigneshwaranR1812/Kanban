@@ -22,12 +22,12 @@
                                     Edit
                                 </a>
                             </div>
-                            <!-- <div>
-                                <a type="button" class="btn btn-danger  px-3  py-1" @click="download">
-                                    <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" icon="pen" /> 
+                            <div>
+                                <a type="button" class="btn btn-danger  px-3  py-1" :href="'/exportListData/'+listId">
+                                    <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" icon="exit" /> 
                                     Export
                                 </a>
-                            </div>  -->
+                            </div> 
                             <div >
                                 <button type="button" class="btn btn-danger   px-3  py-1"  @click="deleteList(listId)" >
                                     <span data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">

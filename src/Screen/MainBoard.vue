@@ -4,11 +4,16 @@
     <div class="row mt-4 mb-3">
         <div class="col-md-6 col-sm-12"></div>
         <div class="col-md-6 col-sm-12 px-auto d-flex justify-content-end">
+            <!-- Button to add new List -->
             <button type="button" class="btn btn-dark  px-3  py-1 me-3" data-bs-toggle="modal" data-bs-target="#addingList">
                 <font-awesome-icon icon="plus" /> &nbsp; Add New List
             </button>
+            <!-- Button to add new Card -->
             <button type="button" class="btn btn-dark  px-3  py-1" data-bs-toggle="modal" data-bs-target="#addingCard">
                 <font-awesome-icon icon="plus" /> &nbsp; Add New Card
+            </button>
+            <button type="button" class="btn btn-dark  px-3  py-1 ms-3"  @click="exportData">
+                <font-awesome-icon icon="plus" /> &nbsp; Export
             </button>
         </div>
         
@@ -17,6 +22,7 @@
        
         
         <div class="row">
+            <!-- display each list as a single card -->
             <ListCard  v-for="list in allList"  :key="list.listId" :list-id="list.listId" :list-name="list.listName" :list-description="list.listDescription" :list-image="list.imageName" />
         </div>
 
@@ -64,6 +70,7 @@
                         </form>
                    
             </div>
+            <!-- action to add new card -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-danger" form="addNewCard">Add Card</button>
@@ -99,6 +106,7 @@
                      
     
                 </div>
+                <!-- Button to add new list -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-danger" form="addNewList">Add List</button>
@@ -113,6 +121,7 @@ import PersonalNavbar from '../components/PersonnalNavbar.vue'
 import ListCard from '../components/ListCard.vue'
 import axios from 'axios'
 import store from '@/Store'
+import { excelParser } from '../excel-parser.js'
 export default{
     
     data(){
@@ -143,6 +152,7 @@ export default{
         console.log(store.state.allList)
     },
         methods: {
+            // function to add new card
             async submitNewCard(){
                 var cardName = /^[a-zA-Z ]+$/
                 var cardDescription = /^[a-zA-Z ][a-zA-Z0-9 ]*$/
@@ -178,7 +188,7 @@ export default{
                 }
 
             },
-            
+            // function to add new List
                 async submitNewList() {
 
                     console.log(store.state.userData)
@@ -217,7 +227,10 @@ export default{
                         console.log("Hello")
                     }
 
-                }
+                },
+            exportData() {
+                excelParser().exportDataFromJSON(this.allList, null, null);
+            },
             
         
     },

@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid img">
-
+        <!-- alert msg will be displaed -->
         <div class="row ">
             <div v-if="error==true" class="row mt-4 ">
                 <div class="col-1"></div>
@@ -20,6 +20,7 @@
                     <div class="card" style="margin:  auto">
                       <div class="card-body">
                         <h5 class="card-title mb-3" style="font-size:30px">Sign Up</h5>
+                        <!-- form to sign up new user -->
                         <form  v-on:submit.prevent="submitData" autocomplete="off">
                             <div class="mb-3">
                                 <label for="exampleInputFN" class="labels" style="text-align:left">First Name</label>
@@ -58,6 +59,7 @@
                                 <label for="exampleInputPhone" class="labels" style="text-align:left">Phone Number</label>
                                 <input type="text" class="form-control" id="exampleInputPhone" aria-describedby="emailHelp" v-model="phoneNumber" required>
                             </div>
+                            <!-- action to add new user and navigate to the login page -->
                         <div class="d-flex align-items-center mb-3">
                             <button type="submit" class="btn btn-danger me-3">Sign Up</button>
                             <a href="/login" class="text-danger " style="text-decoration:none">Have an Account</a>
@@ -101,6 +103,7 @@ export default {
         }
     },
     methods:{
+        // function to add new user
         async submitData(){
             if(this.cpassword!=this.password){
                 alert("Verify password is not same as password")

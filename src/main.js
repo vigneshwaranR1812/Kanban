@@ -14,8 +14,7 @@ import MainBoard from "./Screen/MainBoard.vue";
 import CardCard from "./Screen/CardCard.vue";
 import EditListForm from "./Screen/EditListForm.vue";
 import EditCardForm from "./Screen/EditCardForm.vue";
-import ProfileView from "./Screen/ProfileView.vue";
-
+import ExportPage from "./Screen/ExportPage.vue";
 /* add icons to the library */
 library.add(fas);
 
@@ -37,7 +36,7 @@ export const router = createRouter({
     { path: "/login", component: LoginIn },
     { path: "/dashboard", component: MainBoard },
     { path: "/list/:id", component: CardCard },
-    { path: "/profile", component: ProfileView },
+    { path: "/exportListData/:listId", component: ExportPage },
   ],
 });
 

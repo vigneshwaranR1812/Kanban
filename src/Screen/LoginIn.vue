@@ -1,5 +1,6 @@
 <template>
     <div class="container-fluid img">
+        <!-- alert msg -->
         <div class="row">
             <div v-if="error==true" class="row mt-4 ">
                 <div class="col-1"></div>
@@ -20,6 +21,7 @@
                     <div class="card" style="margin: 30% auto">
                         <div class="card-body">
                             <h5 class="card-title mb-3" style="font-size:30px">Login</h5>
+                            <!-- Form to get user name and password -->
                             <form v-on:submit.prevent="submitData" autocomplete="Off">
                                 
                                 <div class="mb-3">
@@ -35,6 +37,7 @@
                                     <input type="password" class="form-control" id="exampleInputPass"
                                         aria-describedby="emailHelp" v-model="password" required>
                                 </div>
+                                <!-- button to login -->
                                 <div class="d-flex align-items-center mb-3">
                                     <button type="submit" class="btn btn-danger me-3">Login</button>
                                     <a href="/signup" class="text-danger " style="text-decoration:none">Don't Have Account</a>
