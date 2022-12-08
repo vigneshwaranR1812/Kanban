@@ -12,7 +12,7 @@
                 <div class="col-1"></div>
             </div>
             <div class="col-md-8 d-none d-sm-none d-md-block mx-0 px-0">
-                <!-- <img class="img" src="../assets/images/signup.jpg"   alt=""> -->
+              
             </div>
             <div class="col-md-4 ps-4 pe-4" style=" height:100vh">
                 <div class="row d-flex align-items-center ms-2 me-2 mt-5" style="margin: auto auto">

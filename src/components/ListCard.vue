@@ -22,6 +22,12 @@
                                     Edit
                                 </a>
                             </div>
+                            <!-- <div>
+                                <a type="button" class="btn btn-danger  px-3  py-1" @click="download">
+                                    <font-awesome-icon data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" icon="pen" /> 
+                                    Export
+                                </a>
+                            </div>  -->
                             <div >
                                 <button type="button" class="btn btn-danger   px-3  py-1"  @click="deleteList(listId)" >
                                     <span data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
@@ -139,10 +145,14 @@
             </div>
         </div>
     </div>
+    <!-- <div ref="content">
+       <h1>Hello Da otha</h1>
+       <input type="text" ref="hey">
+    </div> -->
 </template>
 <script>
 import store from '@/Store'
-
+// import jspdf from 'jspdf';
 
 // import store from '@/Store'
 
@@ -178,7 +188,7 @@ import store from '@/Store'
                 
                 },4000)
             },
-        
+            
             computed: {
                
                     allTotalCard: () => {
@@ -233,8 +243,18 @@ import store from '@/Store'
                         // alert("List is Not Deleted Try Again!!");
                         // window.location.reload();
                         console.log("Hello")
-                }
+                },
+                // download:()=>{
+                //     console.log(this.$ref.content);
+                //     const doc=new jspdf();
+                //     const html=this.$ref.content.innerHTML;
+                //     doc.fromHTML(html,15,15,{
+                //         width:150
+                //     })
+                // }
+                
             },
+           
             
 
         

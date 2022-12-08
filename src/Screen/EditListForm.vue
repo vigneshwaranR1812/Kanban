@@ -3,6 +3,7 @@
     
     <div class="container">
         <div class="row mt-4 mb-3">
+            <!-- BreadCrumb to navigate between list and dashboard -->
             <div class="col-md-6 col-sm-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -23,6 +24,7 @@
                   
                     <div class="card-body">
                         <h5 class="card-title">Edit List Details</h5>
+                        <!-- form which able to update the list data  -->
                         <form @submit.prevent="fetchListData" autocomplete="off">
                             <!-- Editing List Name -->
                             <div class="mb-3">
@@ -34,6 +36,7 @@
                                 <label for="cardDesc" class="form-label">List Description</label>
                                 <textarea class="form-control" id="cardDesc" rows="3" v-model="listDescription"></textarea>
                             </div>
+                            <!-- button actions   -->
                             <div class="mb-3">
                             <a type="button" class="btn btn-dark" href="/dashboard">Go Back</a>
                             <button type="submit" class=" ms-3 btn btn-danger">Save changes</button>
@@ -62,6 +65,7 @@ export default {
 
         }
     },
+    //used to update the data through the form  from the store
     computed:{
         listName:{
             get() {
@@ -82,6 +86,7 @@ export default {
 
     },
     methods:{
+        //Updates the list data by dispatching action
         fetchListData:()=>{
             const formData=new FormData();
             console.log(store.state.getList.listName);
@@ -96,9 +101,10 @@ export default {
         }
     }
     ,
+    // Triggers the action which gets the list detail based on liost id
     created:async ()=>{
         
-        console.log(router.currentRoute._value.params.id);
+        // console.log(router.currentRoute._value.params.id);
         store.dispatch('getList', router.currentRoute._value.params.id)
     }
     

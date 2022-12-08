@@ -3,6 +3,7 @@
 
     <div class="container">
         <div class="row mt-4 mb-3">
+            <!-- Bread Crumb to navigate to list page -->
             <div class="col-md-6 col-sm-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -23,6 +24,7 @@
 
                     <div class="card-body">
                         <h5 class="card-title">Edit Card Details</h5>
+                        <!-- Form to edit data of the Card -->
                         <form @submit.prevent="updateCardData" >
                             <!-- Editing card Name -->
                             <div class="mb-3">
@@ -55,6 +57,7 @@
                                 <input type="checkbox" class="form-check-input" id="completeCheck" v-model="status">
                                 <label class="form-check-label" for="completeCheck">Completed</label>
                             </div>
+                            <!-- Button to save changes -->
                             <div class="mb-3">
                                 <a type="button" class="btn btn-dark" href="/dashboard">Go Back</a>
                                 <button type="submit" class=" ms-3 btn btn-danger">Save changes</button>
@@ -84,6 +87,7 @@ export default {
 
         }
     },
+    //uses the store to access and update the data 
     computed: {
         cardName: {
             get() {
@@ -131,6 +135,7 @@ export default {
                 console.log(store.state.getCard.status);
             }
         },
+        //gets the current all List based on id from list
         allList:()=>{
             return store.state.allList;
         }
@@ -138,6 +143,7 @@ export default {
 
     },
     methods: {
+        // method that trigger the update card and updates the card from the form data
         updateCardData: () => {
             const formData = new FormData();
             formData.append("cardName", store.state.getCard.cardName);
@@ -159,6 +165,7 @@ export default {
             }
         }
     },
+    //calling the action to get the data of the list available and card details
     created: async () => {
         store.dispatch('getAllList', store.state.userData.token)
         store.dispatch('getCard', { listId: router.currentRoute._value.params.listId, cardId: router.currentRoute._value.params.cardId})

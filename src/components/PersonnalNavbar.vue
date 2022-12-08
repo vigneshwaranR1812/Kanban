@@ -31,11 +31,7 @@
 import store from '@/Store';
 
 export default {
-    data(){
-        return{
-
-        }
-    },
+   
     methods:{
         returnName:()=>{
             return store.state.userData.firstName;

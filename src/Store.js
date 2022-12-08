@@ -4,32 +4,43 @@ import { createStore } from "vuex";
 const store = createStore({
   //state of the website
   state: {
+    //data about the user
     userData:
       localStorage.getItem("userDetails") !== null
         ? JSON.parse(localStorage.getItem("userDetails"))
         : {},
+    //data about the all the list
     allList: [],
+    //data about the list based on id
     getList: {},
+    //data about the all card
     getAllCard: [],
+    //data about the card by id
     getCard: {},
+    //data about the all the card count
     allCardCount: [],
   },
   //changing data in state
   mutations: {
+    //updates the user data
     addUserData: (state, data) => {
       state.userData = data;
     },
+    //remove the users data on logout
     logOut: (state) => {
       localStorage.removeItem("userDetails");
       state.userData = null;
       state.allList = null;
     },
+    //updates the all list data
     getAllList: (state, data) => {
       state.allList = data;
     },
+    //updates the list by id
     getList: (state, data) => {
       state.getList = data;
     },
+    //updates the card count
     getAllCardCount: (state, data) => {
       var boolean = true;
       state.allCardCount.map((arr) => {
@@ -40,12 +51,14 @@ const store = createStore({
       });
       if (boolean) state.allCardCount.push(data);
     },
+    //updates the data from the forms
     setListName: (state, data) => {
       state.getList.listName = data;
     },
     setListDescription: (state, data) => {
       state.getList.listDescription = data;
     },
+    //updates the data from the forms
     setCardName: (state, data) => {
       state.getCard.cardName = data;
     },
@@ -61,21 +74,26 @@ const store = createStore({
     setCardStatus: (state, data) => {
       state.getCard.status = data;
     },
+    //updates the card by list id
     getAllCardById: (state, data) => {
       state.getAllCard = data;
     },
+    //updates the card by card id and list id
     getCard: (state, data) => {
       state.getCard = data;
     },
   },
   //to perform an action in which mutations are called
   actions: {
+    //Implement the user login action
     loginUser: (context, data) => {
       context.commit("addUserData", data);
     },
+    //Implement the user logout action
     logOutUser: (context) => {
       context.commit("logOut");
     },
+    //Implement the all card count action
     getAllCardCount: async (context, list) => {
       console.log(typeof list);
       console.log(store.state.userData.token);
@@ -106,6 +124,7 @@ const store = createStore({
         }
       });
     },
+    //Implement the get all list action
     getAllList: async (context, token) => {
       const config = {
         headers: {
@@ -123,6 +142,7 @@ const store = createStore({
         window.location.href = "/login";
       }
     },
+    //Implement the get list by id
     getList: async (context, id) => {
       const config = {
         headers: {
@@ -140,6 +160,7 @@ const store = createStore({
         window.location.href = "/login";
       }
     },
+    //Implement the updating list by id
     updateListById: async (context, formData) => {
       const config = {
         headers: {
@@ -163,6 +184,7 @@ const store = createStore({
         window.location.href = "/login";
       }
     },
+    //Implement the deleting list by id
     deleteList: async (context, { data, id }) => {
       console.log(data);
       // const config = {
@@ -191,6 +213,7 @@ const store = createStore({
         window.location.href = "/login";
       }
     },
+    //Implement the get all card by list id
     getAllCardById: async (context, id) => {
       const config = {
         headers: {
@@ -212,7 +235,7 @@ const store = createStore({
         window.location.href = "/login";
       }
     },
-
+    //Implement the get all card by list id anc card id
     getCard: async (context, { listId, cardId }) => {
       const config = {
         headers: {
@@ -237,6 +260,7 @@ const store = createStore({
         window.location.href = "/login";
       }
     },
+    //Implement the update card by list id  and card id
     updateCard: async (context, { listId, cardId, formData }) => {
       const config = {
         headers: {
@@ -262,6 +286,7 @@ const store = createStore({
         // window.location.href = "/login";
       }
     },
+    //Implement the delete card by list id and card id
     deleteCard: async (context, { data, listId, cardId }) => {
       console.log(data);
       const config = {
@@ -287,6 +312,7 @@ const store = createStore({
         window.location.href = "/login";
       }
     },
+    //Implement the create Card
     createCard: async (context, { formData, listId }) => {
       const config = {
         headers: {

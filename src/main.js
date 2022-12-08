@@ -1,7 +1,12 @@
-import { createApp } from "vue";
-import App from "./App.vue";
+//Icons Import
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+//bootstrap template
 import "bootstrap/dist/css/bootstrap.css";
 import "./bootstrap.min (3).css";
+//Components
+import App from "./App.vue";
 import SignUp from "./Screen/SignUp";
 import LoginIn from "./Screen/LoginIn.vue";
 import HomeScreen from "./Screen/HomeScreen.vue";
@@ -10,19 +15,20 @@ import CardCard from "./Screen/CardCard.vue";
 import EditListForm from "./Screen/EditListForm.vue";
 import EditCardForm from "./Screen/EditCardForm.vue";
 import ProfileView from "./Screen/ProfileView.vue";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-import { fas } from "@fortawesome/free-solid-svg-icons";
 /* add icons to the library */
 library.add(fas);
 
-//Importing store
+//Importing store and createApp
 import store from "./Store";
+import { createApp } from "vue";
+
 import { createRouter, createWebHistory } from "vue-router";
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
+    //Navigations
+    //Base Url==> http://localhost:8081/
     { path: "/editList/:id", component: EditListForm },
     { path: "/cardDetail/:listId/:cardId", component: EditCardForm },
     { path: "/", component: HomeScreen },
@@ -32,13 +38,10 @@ export const router = createRouter({
     { path: "/dashboard", component: MainBoard },
     { path: "/list/:id", component: CardCard },
     { path: "/profile", component: ProfileView },
-
-    // { path: "", component: HomeScreen },
   ],
 });
 
 const app = createApp(App);
-// app.use(VueTypedJs);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(router);
 app.use(store);
