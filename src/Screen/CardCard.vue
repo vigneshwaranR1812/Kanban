@@ -278,6 +278,7 @@ export default {
     },
     //To get All cards/Task that are  completed
     allCompletedCard: () => {
+      console.log(store.state.getAllCard)
       return store.state.getAllCard.filter((arr) => {
         return arr.status === 'true'
       });
